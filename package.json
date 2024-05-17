@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@vue/cli": "^5.0.8",
+    "hardaht": "^1.0.1",
+    "hardhat": "^2.22.3"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0"
+  }
+}
