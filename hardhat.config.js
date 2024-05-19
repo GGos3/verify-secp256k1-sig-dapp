@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 const { mnemonic } = require('./secrets.json');
 const { task} = require("hardhat/config");
@@ -17,10 +18,12 @@ module.exports = {
     localhost: {},
     hardhat: {},
     bsctestnet : {
-      url: "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
+      url: "https://data-seed-prebsc-1-s3.bnbchain.org:8545",
       chainId: 97,
-      gasPrice: 20000000000,
-      accounts: {mnemonic: mnemonic}
+      // Metamask
+      // accounts: {mnemonic: mnemonic},
+      gasPrice: 2_000_000_000,
+      accounts: [process.env.DEPLOYER_PRIVATE_KEY, process.env.ISSUER_PRIVATE_KEY],
     }
   },
   solidity: "0.8.9",

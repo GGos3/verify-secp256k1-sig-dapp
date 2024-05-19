@@ -61,7 +61,7 @@ describe("ClaimStorage", function () {
             const claimsHash = ethers.solidityPackedKeccak256(['string'], [claimsString]);
             const claimsSignature = await otherAccount.signMessage(ethers.getBytes(claimsHash));
 
-            console.debug("claimsString: ", claimsString);
+            // console.debug("claimsString: ", claimsString);
 
             // OtherAccount의 서명 검증
             const result = await verifySignature.verify(otherAccount.address, claimsString, claimsSignature);
