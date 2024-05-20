@@ -20,11 +20,10 @@ module.exports = {
     bsctestnet : {
       url: "https://data-seed-prebsc-1-s3.bnbchain.org:8545",
       chainId: 97,
-      // Metamask
       // accounts: {mnemonic: mnemonic},
       gasPrice: 2_000_000_000,
       accounts: [process.env.DEPLOYER_PRIVATE_KEY, process.env.ISSUER_PRIVATE_KEY],
-    }
+    },
   },
   solidity: "0.8.9",
 };

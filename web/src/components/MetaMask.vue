@@ -1,9 +1,27 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import { ethers } from "ethers";
+import {ethers, Wallet} from "ethers";
 
 const accountAddress = ref("");
 const accountBalance = ref("");
+const issuerAddress = ref("");
+const issuerBalance = ref("");
+
+const bscTestnet = {
+  chainId: "0x61",
+  chainName: "BNB Smart Chain Testnet",
+  rpcUrls: ["https://data-seed-prebsc-1-s1.bnbchain.org:8545"],
+  nativeCurrency: {
+    name: "tBNB",
+    symbol: "tBNB",
+    decimals: 18
+  },
+  blockExplorerUrls: [
+    "https://testnet.bscscan.com"
+  ]
+};
+
+
 let provider = null;
 let signer = null;
 
@@ -31,19 +49,7 @@ async function setup() {
           .request({
             method: "wallet_addEthereumChain",
             params: [
-              {
-                chainId: "0x61",
-                chainName: "BNB Smart Chain Testnet",
-                rpcUrls: ["https://data-seed-prebsc-1-s1.bnbchain.org:8545"],
-                nativeCurrency: {
-                  name: "tBNB",
-                  symbol: "tBNB",
-                  decimals: 18
-                },
-                blockExplorerUrls: [
-                  "https://testnet.bscscan.com"
-                ]
-              },
+              bscTestnet
             ],
           });
     } catch (e) {
@@ -57,6 +63,12 @@ async function setup() {
   accountBalance.value = ethers.formatEther(
       await provider.getBalance(await signer.getAddress())
   );
+
+  const issuer = new Wallet(import.meta.env.VITE_ISSUER_PRIVATE_KEY, provider);
+  issuerAddress.value = await issuer.getAddress();
+  issuerBalance.value = ethers.formatEther(
+      await provider.getBalance(await issuer.getAddress())
+  );
 }
 
 </script>
@@ -64,6 +76,10 @@ async function setup() {
   <div id="account-info">
     <h4 id="address">현재 계정: {{ accountAddress }}</h4>
     <h4 id="balance">잔액: {{ accountBalance }}tBNB</h4>
+  </div>
+  <div id="account-info">
+    <h4 id="address">Issuer 계정: {{ issuerAddress }}</h4>
+    <h4 id="balance">잔액: {{ issuerBalance }}tBNB</h4>
   </div>
 </template>
 

@@ -12,8 +12,8 @@ contract ClaimStorage {
     }
 
     struct Claim {
-        address claimer;
-        address publisher;
+        address subject;
+        address issuer;
         string claim;
         bytes signature;
     }
@@ -35,8 +35,8 @@ contract ClaimStorage {
         _;
     }
 
-    modifier validSignature(address _claimer, string memory _claim, bytes memory _signature) {
-        require(verifySignature(_claimer, _claim, _signature), "Invalid signature");
+    modifier validSignature(address _signer, string memory _claim, bytes memory _signature) {
+        require(verifySignature(_signer, _claim, _signature), "Invalid signature");
         _;
     }
 
@@ -45,24 +45,24 @@ contract ClaimStorage {
     }
 
     function getClaim(
-        address _claimer
+        address _subject
     ) public view returns (Claim memory) {
-        return claims[_claimer];
+        return claims[_subject];
     }
 
     function addClaim(
-        address _claimer,
+        address _subject,
         string memory _claim,
         bytes memory _signature
-    ) public payable validIssuer validSignature(_claimer, _claim, _signature) {
-        claims[msg.sender] = Claim(_claimer, msg.sender, _claim, _signature);
+    ) public payable validIssuer validSignature(msg.sender, _claim, _signature) {
+        claims[_subject] = Claim(_subject, msg.sender, _claim, _signature);
     }
 
     function verifySignature(
-        address _claimer,
+        address _signer,
         string memory _claim,
         bytes memory _signature
     ) public view returns (bool){
-        return verifyContract.verify(_claimer, _claim, _signature);
+        return verifyContract.verify(_signer, _claim, _signature);
     }
 }

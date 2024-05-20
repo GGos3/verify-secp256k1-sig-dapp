@@ -1,12 +1,23 @@
 <script setup>
-import MetaMask from "@/components/MetaMask.vue";
-import CreateClaim from "@/components/CreateClaim.vue";
+
 </script>
 
 <template>
-  <CreateClaim></CreateClaim>
-  <MetaMask></MetaMask>
+  <div id="app">
+    <nav>
+      <router-link to="/">Home</router-link>
+      <router-link to="/VerifySignaturePage">VerifySignature Test</router-link>
+    </nav>
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
+nav {
+  margin-bottom: 20px;
+}
+
+nav a {
+  margin-right: 10px;
+}
 </style>
